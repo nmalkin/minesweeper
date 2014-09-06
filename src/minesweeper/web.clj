@@ -1,10 +1,12 @@
 (ns minesweeper.web
-  (:require [compojure.core :refer :all]
+  (:require [clojure.java.io :refer [resource]]
+            [compojure.core :refer :all]
             [compojure.handler :as handler]
             [compojure.route :as route]
             [ring.adapter.jetty :refer [run-jetty]]
             [ring.middleware.params :refer [wrap-params]]
             [ring.util.response :refer [redirect redirect-after-post]]
+            [markdown.core :refer [md-to-html-string]]
             [minesweeper.board :as board]
             [minesweeper.game :as game])
   (:gen-class))
@@ -33,8 +35,13 @@
 (defn info [_]
   (str board/width "," board/height "," board/mine-count))
 
+(defn index [_]
+  (let [template (slurp (resource "index.html"))
+        content (md-to-html-string (slurp (resource "README.md")))]
+    (clojure.string/replace template "{{text}}" content)))
+
 (defroutes app-routes
-  (GET "/" [] "Minesweeper")
+  (GET "/" [] index)
   (GET "/info" [] info)
   (ANY "/new" [] (game/new-game!))
   (ANY "/open" [] open)
