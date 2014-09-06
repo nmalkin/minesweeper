@@ -5,9 +5,10 @@
 
 (defn new-game!
   "Initiates a new game. Returns that game's ID."
-  []
+  [name]
   (let [game-id (str (java.util.UUID/randomUUID))]
     (swap! games assoc game-id {:status :active
+                                :name name
                                 :guesses (list)
                                 :my-board (board/random)})
     game-id))
@@ -15,12 +16,13 @@
 (defn open!
   [game-id guess]
   (if-let [game (get @games game-id)]
-    (let [{:keys [status guesses my-board]} game
+    (let [{:keys [status name guesses my-board]} game
           ; Save this guess, but only if we haven't seen it before.
           guesses (if (board/in? guesses guess)
                     guesses
                     (conj guesses guess))
           set-status! #(swap! games assoc game-id {:status %
+                                                   :name name
                                                    :guesses guesses
                                                    :my-board my-board})]
       (cond

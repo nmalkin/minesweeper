@@ -32,6 +32,12 @@
       {:status 400
        :body "Bad Request"})))
 
+(defn new-game
+  [request]
+  (if-let [name (get-in request [:params :name])]
+    (game/new-game! name)
+    "Name required"))
+
 (defn info [_]
   (str board/width "," board/height "," board/mine-count))
 
@@ -43,7 +49,7 @@
 (defroutes app-routes
   (GET "/" [] index)
   (GET "/info" [] info)
-  (ANY "/new" [] (game/new-game!))
+  (ANY "/new" [] new-game)
   (ANY "/open" [] open)
   (route/resources "/")
   (route/not-found "Not Found"))

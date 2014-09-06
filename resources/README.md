@@ -37,7 +37,8 @@ playing on a 5×5 grid, with 2 mines.
 
 ### New game
 
-To start a new game, make a POST request to `/new`. This will return a string 
+To start a new game, make a POST request to `/new`. You will need to include 
+your `name` as a field in the request. In return, you'll get a string 
 that represents the ID of your new game. You'll need it to keep playing.
 
 ### Opening cells
