@@ -16,7 +16,7 @@
     (Integer/parseInt s)
     (catch NumberFormatException e -1)))
 
-(defn guess [request]
+(defn open [request]
   (let [params (:query-params request)
         x (parse-int (get params "x"))
         y (parse-int (get params "y"))
@@ -36,8 +36,8 @@
 (defroutes app-routes
   (GET "/" [] "Minesweeper")
   (GET "/info" [] info)
-  (GET "/new" [] (game/new-game!))
-  (GET "/guess" [] guess)
+  (ANY "/new" [] (game/new-game!))
+  (ANY "/open" [] open)
   (route/resources "/")
   (route/not-found "Not Found"))
 
