@@ -53,6 +53,6 @@ The coordinate of the _top-left_ cell is (0,0).
 
 #### Response
 
-- If you opened a cell with a mine, the return value will be the string "lost".
-- If you opened the last mine-free cell, the return value will be the string "win".
+- If you opened a cell with a mine, the return value will be the string `lost`.
+- If you opened the last mine-free cell, the return value will be the string `win`.
 - Otherwise, the return value will be the number of neighboring mines.
