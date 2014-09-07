@@ -19,10 +19,10 @@
     (catch NumberFormatException e -1)))
 
 (defn open [request]
-  (let [params (:query-params request)
-        x (parse-int (get params "x"))
-        y (parse-int (get params "y"))
-        game-id (get params "id")
+  (let [params (:params request)
+        x (parse-int (get params :x))
+        y (parse-int (get params :y))
+        game-id (get params :id)
         my-guess (board/new-posn x y)]
     (if (board/valid-posn? my-guess)
       (let [result (game/open! game-id my-guess)]
