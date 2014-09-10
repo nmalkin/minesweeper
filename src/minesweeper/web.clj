@@ -8,6 +8,7 @@
             [ring.util.response :refer [redirect redirect-after-post]]
             [markdown.core :refer [md-to-html-string]]
             [minesweeper.board :as board]
+            [minesweeper.database :as database]
             [minesweeper.game :as game])
   (:gen-class))
 
@@ -35,7 +36,7 @@
 (defn new-game
   [request]
   (if-let [name (get-in request [:params :name])]
-    (game/new-game! name)
+    (game/new! name)
     "Name required"))
 
 (defn info [_]
@@ -60,5 +61,6 @@
       wrap-params))
 
 (defn -main []
+  (database/migrate)
   (let [port (Integer/parseInt (get (System/getenv) "PORT" "3000"))]
     (run-jetty app {:port port})))

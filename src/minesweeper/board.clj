@@ -4,9 +4,8 @@
 (def height 5)
 (def mine-count 2)
 
-(defrecord Posn [x y])
 (defn new-posn [x y]
-  (Posn. x y))
+  {:x x :y y})
 
 (defn random-posn
   "Return a random position"
@@ -51,3 +50,18 @@
         (if (in? random mines)
           (recur remaining mines)
           (recur (dec remaining) (conj mines random)))))))
+
+(defn blank
+  "Return an empty board"
+  []
+  [])
+
+(defn serialize
+  "Encode this board as a string"
+  [board]
+  (str board))
+
+(defn deserialize
+  "Decode the string representation of a board, returning a new board"
+  [board-string]
+  (read-string board-string))
