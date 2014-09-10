@@ -8,7 +8,7 @@
   {:x x :y y})
 
 (defn random-posn
-  "Return a random position"
+  "Return a random position on the board"
   []
   (new-posn (rand-int width)
             (rand-int height)))
@@ -47,7 +47,7 @@
     (if (= 0 remaining)
       mines
       (let [random (random-posn)]
-        (if (in? random mines)
+        (if (in? mines random)
           (recur remaining mines)
           (recur (dec remaining) (conj mines random)))))))
 
