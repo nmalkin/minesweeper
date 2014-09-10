@@ -5,7 +5,6 @@
             [compojure.route :as route]
             [ring.adapter.jetty :refer [run-jetty]]
             [ring.middleware.params :refer [wrap-params]]
-            [ring.util.response :refer [redirect redirect-after-post]]
             [markdown.core :refer [md-to-html-string]]
             [minesweeper.board :as board]
             [minesweeper.database :as database]
@@ -19,39 +18,51 @@
     (Integer/parseInt s)
     (catch NumberFormatException e -1)))
 
-(defn open [request]
+(defn format-response
+  ""
+  [handler]
+  (fn [request]
+    (let [response (handler request)]
+      (cond
+        (nil? response) {:status 400 :body "Bad Request"}
+        (keyword? response) (name response)
+        :else (str response)))))
+
+(defn open
+  "Handle a request to open a cell"
+  [request]
   (let [params (:params request)
-        x (parse-int (get params :x))
-        y (parse-int (get params :y))
-        game-id (get params :id)
+        game-id (:id params)
+        x (-> params :x parse-int)
+        y (-> params :y parse-int)
         my-guess (board/new-posn x y)]
     (if (board/valid-posn? my-guess)
-      (let [result (game/open! game-id my-guess)]
-        (if (keyword? result)
-          (name result)
-          (str result)))
-      {:status 400
-       :body "Bad Request"})))
+      (game/open! game-id my-guess))))
 
 (defn new-game
+  "Handle a request for a new game"
   [request]
   (if-let [name (get-in request [:params :name])]
-    (game/new! name)
-    "Name required"))
+    (game/new! name)))
 
-(defn info [_]
+(defn info
+  "Handle a request for board information"
+  [_]
   (str board/width "," board/height "," board/mine-count))
 
-(defn index [_]
+(defn index
+  "Handle a request for the homepage by returning instructions"
+  [_]
   (let [template (slurp (resource "index.html"))
         content (md-to-html-string (slurp (resource "README.md")))]
+    ; poor man's templating
     (clojure.string/replace template "{{text}}" content)))
 
 (defroutes app-routes
   (GET "/" [] index)
-  (GET "/info" [] info)
-  (ANY "/new" [] new-game)
-  (ANY "/open" [] open)
+  (GET "/info" [] (format-response info))
+  (ANY "/new"  [] (format-response new-game))
+  (ANY "/open" [] (format-response open))
   (route/resources "/")
   (route/not-found "Not Found"))
 
