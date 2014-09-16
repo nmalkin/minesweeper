@@ -30,6 +30,16 @@ ranked.
 Interface
 ---------
 
+A server with a web API will be managing the games, but *we recommend using 
+[our helper client](https://github.com/nmalkin/minesweeper-client#minesweeper-client)* 
+to save time. Please follow that link for further instructions.
+
+Web API
+-------
+
+This is the API for the game. (Again, we recommend using the helper client 
+instead of accessing the HTTP API directly.)
+
 ### Board dimensions
 
 To find the dimensions of the minesweeper board that you'll be playing, make a 
