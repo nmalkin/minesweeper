@@ -1,7 +1,7 @@
 (ns minesweeper.board)
 
-(def width 5)
-(def height 5)
+(def width 4)
+(def height 4)
 (def mine-count 2)
 
 (defn new-posn [x y]
