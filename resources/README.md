@@ -30,8 +30,8 @@ ranked.
 Interface
 ---------
 
-A server with a web API will be managing the games, but *we recommend using 
-[our helper client](https://github.com/nmalkin/minesweeper-client#minesweeper-client)* 
+A server with a web API will be managing the games, but __we recommend using__ 
+[our helper client](https://github.com/nmalkin/minesweeper-client#minesweeper-client) 
 to save time. Please follow that link for further instructions.
 
 Web API
