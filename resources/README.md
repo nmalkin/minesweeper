@@ -73,7 +73,10 @@ The coordinate of the _top-left_ cell is (0,0).
 - If you opened the last mine-free cell, the return value will be the string `win`.
 - Otherwise, the return value will be the number of neighboring mines.
 
-#### CURL Manual Gameplay example
+#### Game walkthrough using cURL
+
+To get a sense for what gameplay feels like, let's walk through an example game 
+using cURL.
 
 Before we start playing, we should check what is the size of the grid we are dealing with:
 
