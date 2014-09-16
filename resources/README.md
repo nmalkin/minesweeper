@@ -23,7 +23,9 @@ If you open every mine-free cell on the grid, then congratulations, you've won!
 Scoring
 -------
 
-TBD
+Submissions will be ranked by their winning percentage (i.e., the fraction of 
+games the AI has won). Only submissions with 10,000 games or more will be 
+ranked.
 
 Interface
 ---------
