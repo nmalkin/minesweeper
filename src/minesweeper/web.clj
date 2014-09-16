@@ -43,7 +43,8 @@
   "Handle a request for a new game"
   [request]
   (if-let [name (get-in request [:params :name])]
-    (game/new! name)))
+    (let [version (-> request :params :version parse-int)]
+      (game/new! name version))))
 
 (defn info
   "Handle a request for board information"

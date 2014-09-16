@@ -41,6 +41,10 @@ To start a new game, make a POST request to `/new`. You will need to include
 your `name` as a field in the request. In return, you'll get a string 
 that represents the ID of your new game. You'll need it to keep playing.
 
+You can also include a `version` number as part of your request (integers only, 
+please). These differentiate your submissions: only games with the highest 
+version number will be counted for scoring.
+
 ### Opening cells
 
 To open a cell, make a POST request to `/open` with the following arguments:

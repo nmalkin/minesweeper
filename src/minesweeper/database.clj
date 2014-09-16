@@ -25,6 +25,7 @@
                              [:id :serial "PRIMARY KEY"]
                              [:key "varchar(64)" "NOT NULL"]
                              [:name "varchar(128)" "NOT NULL"]
+                             [:version "integer" "NOT NULL"]
                              [:status "varchar(16)" "NOT NULL"]
                              [:mines :text "NOT NULL"]
                              [:guesses :text "NOT NULL"]

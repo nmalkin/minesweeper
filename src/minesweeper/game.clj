@@ -5,12 +5,13 @@
 
 (defn new!
   "Initiates a new game. Returns that game's ID."
-  [name]
+  [name version]
   (let [game-id (str (java.util.UUID/randomUUID))]
     (jdbc/insert! database/spec
                   :games
                   {:key game-id
                    :name name
+                   :version version
                    :status "active"
                    :mines (board/serialize (board/random))
                    :guesses (board/serialize (board/blank))})
