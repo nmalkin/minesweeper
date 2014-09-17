@@ -31,8 +31,14 @@ Interface
 ---------
 
 A server with a web API will be managing the games, but __we recommend using__ 
-[our helper client](https://github.com/nmalkin/minesweeper-client#minesweeper-client) 
+[our helper client](http://client.minesweeper.nm.io) 
 to save time. Please follow that link for further instructions.
+
+Examples
+--------
+We have [some example clients available](https://github.com/nmalkin/minesweeper-examples) 
+(some that use the helper client and some that use the Web API described below). 
+Feel free to take a look at them or use them as the basis of your code.
 
 Web API
 -------
