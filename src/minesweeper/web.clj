@@ -9,7 +9,8 @@
             [clostache.parser :as clostache]
             [minesweeper.board :as board]
             [minesweeper.database :as database]
-            [minesweeper.game :as game])
+            [minesweeper.game :as game]
+            [minesweeper.results :as results])
   (:gen-class))
 
 (defn parse-int
@@ -32,13 +33,24 @@
         (keyword? response) (name response)
         :else (str response)))))
 
+(defn int-param
+  "Retrieves an integer parameter from given request"
+  [request param]
+  (-> request :params param parse-int))
+
+(defn leaderboard
+  "Display the results"
+  [request]
+  (let [over (int-param request :over)
+        raw-results (results/all over)]
+    (clostache/render-resource "results.html" {:players raw-results})))
+
 (defn open
   "Handle a request to open a cell"
   [request]
-  (let [params (:params request)
-        game-id (:id params)
-        x (-> params :x parse-int)
-        y (-> params :y parse-int)
+  (let [game-id (-> request :params :id)
+        x (int-param request :x)
+        y (int-param request :y)
         my-guess (board/new-posn x y)]
     (if (board/valid-posn? my-guess)
       (game/open! game-id my-guess))))
@@ -47,7 +59,7 @@
   "Handle a request for a new game"
   [request]
   (if-let [name (get-in request [:params :name])]
-    (let [version (-> request :params :version parse-int)]
+    (let [version (int-param request :version)]
       (game/new! name version))))
 
 (defn info
@@ -66,6 +78,7 @@
   (GET "/info" [] (format-response info))
   (ANY "/new"  [] (format-response new-game))
   (ANY "/open" [] (format-response open))
+  (GET "/results" [] (format-response leaderboard))
   (route/resources "/")
   (route/not-found "Not Found"))
 
