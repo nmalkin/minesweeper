@@ -20,7 +20,10 @@
     (catch NumberFormatException e -1)))
 
 (defn format-response
-  ""
+  "Wraps handler functions, ensuring that the values they return can be
+  rendered and displayed.
+  Nil responses are assumed to be the result of bad requests, resulting in
+  an error message and a 400 status code."
   [handler]
   (fn [request]
     (let [response (handler request)]
