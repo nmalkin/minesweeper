@@ -2,6 +2,7 @@
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [compojure "1.1.8"]
                  [ring/ring-jetty-adapter "1.3.1"]
+                 [ring-basic-authentication "1.0.5"]
                  [markdown-clj "0.9.47"]
                  [de.ubercode.clostache/clostache "1.4.0"]
                  [org.clojure/java.jdbc "0.3.5"]

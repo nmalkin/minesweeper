@@ -5,6 +5,7 @@
             [compojure.route :as route]
             [ring.adapter.jetty :refer [run-jetty]]
             [ring.middleware.params :refer [wrap-params]]
+            [ring.middleware.basic-authentication :refer [wrap-basic-authentication]]
             [markdown.core :refer [md-to-html-string]]
             [clostache.parser :as clostache]
             [minesweeper.board :as board]
@@ -37,6 +38,12 @@
   "Retrieves an integer parameter from given request"
   [request param]
   (-> request :params param parse-int))
+
+(defn check-credentials
+  "Verify given credentials"
+  [username password]
+  (and (= username (get (System/getenv) "MINESWEEPER_USERNAME" ""))
+       (= password (get (System/getenv) "MINESWEEPER_PASSWORD" ""))))
 
 (defn leaderboard
   "Display the results"
@@ -78,7 +85,9 @@
   (GET "/info" [] (format-response info))
   (ANY "/new"  [] (format-response new-game))
   (ANY "/open" [] (format-response open))
-  (GET "/results" [] (format-response leaderboard))
+  (GET "/results" [] (-> leaderboard
+                         format-response
+                         (wrap-basic-authentication check-credentials)))
   (route/resources "/")
   (route/not-found "Not Found"))
 
