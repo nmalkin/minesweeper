@@ -3,6 +3,7 @@
                  [compojure "1.1.8"]
                  [ring/ring-jetty-adapter "1.3.1"]
                  [markdown-clj "0.9.47"]
+                 [de.ubercode.clostache/clostache "1.4.0"]
                  [org.clojure/java.jdbc "0.3.5"]
                  [org.postgresql/postgresql "9.3-1102-jdbc41"]]
   :plugins [[lein-ring "0.8.11"]]

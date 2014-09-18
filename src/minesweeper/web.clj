@@ -6,6 +6,7 @@
             [ring.adapter.jetty :refer [run-jetty]]
             [ring.middleware.params :refer [wrap-params]]
             [markdown.core :refer [md-to-html-string]]
+            [clostache.parser :as clostache]
             [minesweeper.board :as board]
             [minesweeper.database :as database]
             [minesweeper.game :as game])
@@ -54,10 +55,8 @@
 (defn index
   "Handle a request for the homepage by returning instructions"
   [_]
-  (let [template (slurp (resource "index.html"))
-        content (md-to-html-string (slurp (resource "README.md")))]
-    ; poor man's templating
-    (clojure.string/replace template "{{text}}" content)))
+  (let [content (md-to-html-string (slurp (resource "README.md")))]
+    (clostache/render-resource "index.html" {:text content})))
 
 (defroutes app-routes
   (GET "/" [] index)
